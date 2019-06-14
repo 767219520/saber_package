@@ -73,9 +73,9 @@ class ScreenUtils {
   static double get bottomBarHeight => _bottomBarHeight * _pixelRatio;
 
   ///实际的dp与设计稿px的比例
-  get scaleWidth => _screenWidth / instance.width;
+  double  get  scaleWidth  => _screenWidth / instance.width;
 
-  get scaleHeight => _screenHeight / instance.height;
+  double  get scaleHeight => _screenHeight / instance.height;
 
   ///根据设计稿的设备宽度适配
   ///高度也根据这个来做适配可以保证不变形

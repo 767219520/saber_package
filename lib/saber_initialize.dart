@@ -40,14 +40,15 @@ class Initialize {
   Initialize init(
       {FutureInit before,
       FutureInit after,
-      designWidth,
-      designHeight,
-      designAllowFontScaling}) {
+      double designWidth,
+      double designHeight,
+      bool designAllowFontScaling}) {
     this._before = before;
     this._after = after;
     _designHeight = designHeight;
     _designWidth = designWidth;
     _designAllowFontScaling = designAllowFontScaling;
+    return this;
   }
 
   Future<String> _init(BuildContext context) async {
