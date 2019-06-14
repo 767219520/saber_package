@@ -24,7 +24,7 @@ class _FutureBuilderWidgetState extends State<FutureBuilderWidget> {
   @override
   Widget build(BuildContext context) {
     Widget c = widget.controller.isload
-        ? widget._widgetBuilder(context)
+        ? widget._widgetBuilder(context,null)
         : FutureBuilder(
         future: init(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -57,4 +57,4 @@ class FutureBuilderController {
 
 typedef Future FutureInit(BuildContext context);
 
-typedef WidgetBuilderResult = Widget Function(BuildContext context,[dynamic data]);
+typedef Widget WidgetBuilderResult (BuildContext context,dynamic data);
