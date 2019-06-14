@@ -15,6 +15,7 @@ class Initialize {
 
   Directory baseDir;
   String _macId = "";
+  bool loadMacId = true;
   SharedPreferences sharedPreferences;
   PackageInfo packageInfo;
   AndroidDeviceInfo _deviceInfo;
@@ -35,6 +36,7 @@ class Initialize {
 
   Future<String> _init(BuildContext context) async {
     Common.printLog('初始化');
+    _macId = loadMacId ? await _getMacId() : "";
     if (_before != null) await _before(context);
     sharedPreferences = await SharedPreferences.getInstance();
     baseDir = await getApplicationDocumentsDirectory();
@@ -65,7 +67,7 @@ class Initialize {
     return _iosDeviceInfo;
   }
 
-  Future<String> getMacId() async {
+  Future<String> _getMacId() async {
     if (StringUtils.isNotEmpty(_macId)) return _macId;
     if (Platform.isAndroid) {
       AndroidDeviceInfo deviceInfo = await getAndroidDeviceInfo();
