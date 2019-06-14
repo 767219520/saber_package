@@ -8,7 +8,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'route_tools.dart';
 
 class CommonTools {
-
   static showloading(BuildContext context) {
     showDialog(
         context: context,
@@ -39,7 +38,7 @@ class CommonTools {
           child: Text(confirmTitle),
           isDefaultAction: true,
           onPressed: () {
-            pagegoBack(context, true);
+            RouteTools.pagegoBack(context, true);
           },
         ),
         CupertinoDialogAction(
@@ -47,7 +46,7 @@ class CommonTools {
           isDestructiveAction: true, //true为红色，false为蓝色
           isDefaultAction: true, //true为粗体，false为正常
           onPressed: () {
-            pagegoBack(context, false);
+            RouteTools.pagegoBack(context, false);
           },
         ),
       ],
@@ -88,24 +87,6 @@ class CommonTools {
         });
   }
 
-  static void pagegoBack<T extends Object>(BuildContext context, [T result]) {
-    Navigator.of(context).pop(result);
-  }
-
-
-
-  static Future pageTurn(BuildContext context, Widget page,
-      [bool destroy = false]) {
-    var r = MaterialPageRoute(builder: (context) {
-      return page;
-    });
-    if (!destroy) return Navigator.of(context).push(r);
-    return Navigator.of(context)
-        .pushAndRemoveUntil(r, (route) => route == null);
-  }
-
-
-
   static getscreenInfo(BuildContext context) {
     return MediaQuery.of(context);
   }
@@ -113,8 +94,6 @@ class CommonTools {
   static double getStatusBarHeight(BuildContext context) {
     return MediaQuery.of(context).padding.top;
   }
-
-
 
   static alertDialog(
       BuildContext context, String title, Widget msg, Function func) {
@@ -131,7 +110,7 @@ class CommonTools {
                 child: new Text('确定'),
                 onPressed: () {
                   func != null ? func(true) : null;
-                  pagegoBack(context);
+                  RouteTools.pagegoBack(context);
                 },
               ),
             ),
