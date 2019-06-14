@@ -12,7 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Initialize {
   static Initialize instance = new Initialize();
-
+  ScreenUtils screenUtils = ScreenUtils.instance;
   Directory baseDir;
   String macId = "";
   bool loadMacId = true;
@@ -22,6 +22,9 @@ class Initialize {
   IosDeviceInfo _iosDeviceInfo;
   static DeviceInfoPlugin _deviceInfoPlugin = new DeviceInfoPlugin();
   static FlutterSecureStorage _storage = new FlutterSecureStorage();
+  double _designWidth;
+  double _designHeight;
+  bool _designAllowFontScaling;
 
   FutureInit _before;
   FutureInit _after;
@@ -34,10 +37,26 @@ class Initialize {
     this._after = _after;
   }
 
+  Initialize init(
+      {FutureInit before,
+      FutureInit after,
+      designWidth,
+      designHeight,
+      designAllowFontScaling}) {
+    this._before = before;
+    this._after = after;
+    _designHeight = designHeight;
+    _designWidth = designWidth;
+    _designAllowFontScaling = designAllowFontScaling;
+  }
+
   Future<String> _init(BuildContext context) async {
-    Common.printLog('初始化');
     macId = loadMacId ? await _getMacId() : "";
     if (_before != null) await _before(context);
+    screenUtils.init(context,
+        width: _designWidth,
+        height: _designHeight,
+        allowFontScaling: _designAllowFontScaling);
     sharedPreferences = await SharedPreferences.getInstance();
     baseDir = await getApplicationDocumentsDirectory();
     packageInfo = await PackageInfo.fromPlatform();
