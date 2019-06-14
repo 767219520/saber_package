@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class ScreenUtils {
   static ScreenUtils instance = new ScreenUtils();
 
@@ -17,11 +18,6 @@ class ScreenUtils {
 
   static double _textScaleFactor;
 
-  ScreenUtils({
-    this.width = 1080,
-    this.height = 1920,
-    this.allowFontScaling = false,
-  });
   static wpx(double v) {
     return instance._setWidth(v);
   }
@@ -30,7 +26,15 @@ class ScreenUtils {
     return instance._setHeight(v);
   }
 
-  void init(BuildContext context) {
+  void init(
+    BuildContext context, {
+    width = 1080,
+    height = 1920,
+    allowFontScaling = false,
+  }) {
+    this.width = width;
+    this.height = height;
+    this.allowFontScaling = allowFontScaling;
     MediaQueryData mediaQuery = MediaQuery.of(context);
     _mediaQueryData = mediaQuery;
     _pixelRatio = mediaQuery.devicePixelRatio;
@@ -39,6 +43,7 @@ class ScreenUtils {
     _statusBarHeight = mediaQuery.padding.top;
     _bottomBarHeight = _mediaQueryData.padding.bottom;
     _textScaleFactor = mediaQuery.textScaleFactor;
+
   }
 
   static MediaQueryData get mediaQueryData => _mediaQueryData;
