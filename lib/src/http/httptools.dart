@@ -1,11 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
-import 'package:saber_package/saber_tools.dart';
-import 'package:saber_package/saber_utils.dart';
 import 'package:saber_package/src/utils/file_utils.dart';
 
 import '../../saber_http.dart';
@@ -13,9 +11,11 @@ import '../../saber_http.dart';
 class Httptools {
   static Httptools instance = new Httptools();
   Client _client;
+  static Map<String, String> _empty = Map();
 
-  init([int connectionTimeout, int idleTimeout]) {
+  Httptools init([int connectionTimeout, int idleTimeout]) {
     _client = _paypalClient();
+    return this;
   }
 
   static http.Client _paypalClient(
@@ -33,12 +33,13 @@ class Httptools {
   Future<HttpResponse> requestCall(@required String url,
       {Map<String, Object> queryParameters,
       Map<String, String> headers,
-      String requestType = "post"}) async {
+      RequestType requestType = RequestType.post}) async {
     HttpResponse httpResponse = new HttpResponse();
     var q = toMap(queryParameters);
+    headers = headers == null ? _empty : headers;
     url = render(url, q);
     try {
-      Response response = "post" == requestType
+      Response response = "post" == requestType.requestType
           ? await _client.post(url, body: q, headers: headers)
           : await _client.get(url, headers: headers);
       httpResponse.httpCode = response.statusCode;
@@ -94,4 +95,13 @@ class Httptools {
 class HttpResponse {
   int httpCode;
   String result;
+}
+
+class RequestType {
+  final String requestType;
+
+  const RequestType(this.requestType);
+
+  static const RequestType post = RequestType("post");
+  static const RequestType get = RequestType("get");
 }
