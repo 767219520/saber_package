@@ -14,7 +14,7 @@ class Initialize {
   static Initialize instance = new Initialize();
 
   Directory baseDir;
-  String _macId = "";
+  String macId = "";
   bool loadMacId = true;
   SharedPreferences sharedPreferences;
   PackageInfo packageInfo;
@@ -36,7 +36,7 @@ class Initialize {
 
   Future<String> _init(BuildContext context) async {
     Common.printLog('初始化');
-    _macId = loadMacId ? await _getMacId() : "";
+    macId = loadMacId ? await _getMacId() : "";
     if (_before != null) await _before(context);
     sharedPreferences = await SharedPreferences.getInstance();
     baseDir = await getApplicationDocumentsDirectory();
@@ -68,19 +68,19 @@ class Initialize {
   }
 
   Future<String> _getMacId() async {
-    if (StringUtils.isNotEmpty(_macId)) return _macId;
+    if (StringUtils.isNotEmpty(macId)) return macId;
     if (Platform.isAndroid) {
       AndroidDeviceInfo deviceInfo = await getAndroidDeviceInfo();
-      _macId = deviceInfo.androidId;
+      macId = deviceInfo.androidId;
     } else {
-      _macId = await storageRead(packageInfo.packageName);
-      if (StringUtils.isEmpty(_macId)) {
+      macId = await storageRead(packageInfo.packageName);
+      if (StringUtils.isEmpty(macId)) {
         var deviceInfo = await _deviceInfoPlugin.iosInfo;
-        _macId = deviceInfo.identifierForVendor;
-        storageWrite(packageInfo.packageName, _macId);
+        macId = deviceInfo.identifierForVendor;
+        storageWrite(packageInfo.packageName, macId);
       }
     }
-    return _macId;
+    return macId;
   }
 }
 
