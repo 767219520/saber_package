@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class RouteTools {
-  static void pagegoBack<T extends Object>(BuildContext context, [T result]) {
-    Navigator.of(context).pop(result);
+  static bool pagegoBack<T extends Object>(BuildContext context, [T result]) {
+    return Navigator.of(context).pop(result);
   }
 
   static Future pageTurn(BuildContext context, Widget page,

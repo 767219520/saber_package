@@ -1,5 +1,3 @@
-import 'package:common_utils/common_utils.dart';
-
 class StringUtils {
   static String blank([int length = 1]) {
     String b = "";

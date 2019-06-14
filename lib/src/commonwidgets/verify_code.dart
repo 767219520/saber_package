@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-
 class VerifyCode extends StatefulWidget {
   AwaitButtonText getAwaitButtonText;
   Text buttonText;
