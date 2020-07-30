@@ -26,27 +26,27 @@ class Refresh extends StatefulWidget {
 
 class _refreshState extends State<Refresh> {
   EasyRefresh _smartRefresher;
-
-  GlobalKey<EasyRefreshState> _easyRefreshKey =
-      new GlobalKey<EasyRefreshState>();
-  GlobalKey<RefreshHeaderState> _headerKey =
-      new GlobalKey<RefreshHeaderState>();
-  GlobalKey<RefreshFooterState> _footerKey =
-      new GlobalKey<RefreshFooterState>();
+//
+//  GlobalKey<EasyRefreshState> _easyRefreshKey =
+//      new GlobalKey<EasyRefreshState>();
+//  GlobalKey<RefreshHeaderState> _headerKey =
+//      new GlobalKey<RefreshHeaderState>();
+//  GlobalKey<RefreshFooterState> _footerKey =
+//      new GlobalKey<RefreshFooterState>();
 
   @override
   Widget build(BuildContext context) {
     widget.itemCount = widget.itemCount <= 0 ? 0 : widget.itemCount;
     _smartRefresher = new EasyRefresh(
         firstRefresh: widget.firstRefresh,
-        key: _easyRefreshKey,
-        refreshHeader: BezierCircleHeader(
-          key: _headerKey,
+//        key: _easyRefreshKey,
+        header: BezierCircleHeader(
+//          key: _headerKey,
           backgroundColor: Color(0xFFdddddd),
           color: Theme.of(context).scaffoldBackgroundColor,
         ),
-        refreshFooter: BezierBounceFooter(
-          key: _footerKey,
+        footer: BezierBounceFooter(
+//          key: _footerKey,
           backgroundColor: Color(0xFFdddddd),
           color: Theme.of(context).scaffoldBackgroundColor,
         ),
@@ -55,7 +55,7 @@ class _refreshState extends State<Refresh> {
             : () {
                 return _onRefresh(true);
               },
-        loadMore: widget.onFooterRefresh == null
+        onLoad: widget.onFooterRefresh == null
             ? null
             : () {
                 return _onRefresh(false);

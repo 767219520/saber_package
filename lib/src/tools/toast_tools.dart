@@ -7,7 +7,7 @@ class ToastTools{
         msg: msg,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
-        timeInSecForIos: 1,
+        timeInSecForIosWeb: 1,
         backgroundColor: Color(0xff63CA6C),
         textColor: color==null?_color:color);
   }
