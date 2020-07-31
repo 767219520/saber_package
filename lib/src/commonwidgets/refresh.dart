@@ -28,7 +28,6 @@ class _refreshState extends State<Refresh> {
   @override
   Widget build(BuildContext context) {
     widget.itemCount = widget.itemCount <= 0 ? 0 : widget.itemCount;
-    widget.itemCount += 20;
     _smartRefresher = new EasyRefresh(
         controller: widget._controller,
         firstRefresh: widget.firstRefresh,
