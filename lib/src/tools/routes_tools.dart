@@ -9,9 +9,10 @@ import 'package:saber_package/saber_utils.dart';
 import 'package:saber_package/src/adapter/base_page.dart';
 
 class Routes {
-  static Router _router = new Router();
+  static Router _router;
 
   static void configureRoutes(List<RouteConfig> lstConfig) {
+    _router = new Router();
     _router.notFoundHandler = new Handler(
         handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       print("ROUTE WAS NOT FOUND !!!");

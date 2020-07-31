@@ -5,7 +5,7 @@ class Refresh extends StatefulWidget {
   final OnRefresh onFooterRefresh;
   final OnRefresh onHeaderRefresh;
   IndexedWidgetBuilder widgetBuilder;
-  int itemCount = 0;
+  SetItemCount itemCount;
   List<Widget> defaultChilds = null;
   bool firstRefresh;
   EasyRefreshController _controller;
@@ -15,11 +15,11 @@ class Refresh extends StatefulWidget {
 
   Refresh(
       {this.onHeaderRefresh,
-        this.onFooterRefresh,
-        this.widgetBuilder,
-        this.itemCount,
-        this.defaultChilds,
-        this.firstRefresh = true});
+      this.onFooterRefresh,
+      this.widgetBuilder,
+      this.itemCount,
+      this.defaultChilds,
+      this.firstRefresh = true});
 }
 
 class _refreshState extends State<Refresh> {
@@ -27,7 +27,7 @@ class _refreshState extends State<Refresh> {
 
   @override
   Widget build(BuildContext context) {
-    widget.itemCount = widget.itemCount <= 0 ? 0 : widget.itemCount;
+    var itemCount = widget.itemCount() ?? 0;
     _smartRefresher = new EasyRefresh(
         controller: widget._controller,
         firstRefresh: widget.firstRefresh,
@@ -47,22 +47,22 @@ class _refreshState extends State<Refresh> {
         onRefresh: widget.onHeaderRefresh == null
             ? null
             : () {
-          return _onRefresh(true);
-        },
+                return _onRefresh(true);
+              },
         onLoad: widget.onFooterRefresh == null
             ? null
             : () {
-          return _onRefresh(false);
-        },
+                return _onRefresh(false);
+              },
         child: widget.widgetBuilder == null
             ? ListView(
-          children: widget.defaultChilds,
-          physics: BouncingScrollPhysics(),
-        )
+                children: widget.defaultChilds,
+                physics: BouncingScrollPhysics(),
+              )
             : ListView.builder(
-            itemCount: widget.itemCount,
-            itemBuilder: widget.widgetBuilder,
-            physics: BouncingScrollPhysics()));
+                itemCount: itemCount,
+                itemBuilder: widget.widgetBuilder,
+                physics: BouncingScrollPhysics()));
     return _smartRefresher;
   }
 
@@ -75,3 +75,4 @@ class _refreshState extends State<Refresh> {
 }
 
 typedef Future OnRefresh(State controller);
+typedef int SetItemCount();
