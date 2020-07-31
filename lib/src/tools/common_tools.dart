@@ -4,8 +4,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
-import 'route_tools.dart';
+import 'package:saber_package/src/tools/routes_tools.dart';
 
 class CommonTools {
   static showloading(BuildContext context) {
@@ -38,7 +37,7 @@ class CommonTools {
           child: Text(confirmTitle),
           isDefaultAction: true,
           onPressed: () {
-            RouteTools.pagegoBack(context, true);
+            Routes.back(context, true);
           },
         ),
         CupertinoDialogAction(
@@ -46,7 +45,7 @@ class CommonTools {
           isDestructiveAction: true, //true为红色，false为蓝色
           isDefaultAction: true, //true为粗体，false为正常
           onPressed: () {
-            RouteTools.pagegoBack(context, false);
+            Routes.back(context, false);
           },
         ),
       ],
@@ -72,13 +71,13 @@ class CommonTools {
             actions: <Widget>[
               CupertinoDialogAction(
                 onPressed: () {
-                  RouteTools.pagegoBack(context1, false);
+                   Routes.back(context1, false);
                 },
                 child: Text(cancleTitle),
               ),
               CupertinoDialogAction(
                 onPressed: () {
-                  RouteTools.pagegoBack(context1, true);
+                  Routes.back(context1, true);
                 },
                 child: Text(confirmTitle),
               ),
@@ -110,7 +109,7 @@ class CommonTools {
                 child: new Text('确定'),
                 onPressed: () {
                   func != null ? func(true) : null;
-                  RouteTools.pagegoBack(context);
+                   Routes.back(context);
                 },
               ),
             ),

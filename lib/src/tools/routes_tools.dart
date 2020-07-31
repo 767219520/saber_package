@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:fluro/fluro.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:saber_package/saber_tools.dart';
 import 'package:saber_package/saber_utils.dart';
@@ -51,9 +53,26 @@ class Routes {
         transitionBuilder: transitionBuilder);
   }
 
-  static back<T extends Object>(BuildContext context, [T result]) {
-//    _router.pop(context);
-    RouteTools.pagegoBack(context, result);
+  static void back<T extends Object>(BuildContext context, [T result]) {
+    return Navigator.pop(context, result);
+  }
+
+  static Future pageTurn(BuildContext context, Widget page,
+      [bool destroy = false, bool autoPlatform = false]) {
+    var r;
+    if (autoPlatform && Platform.isIOS) {
+      r = CupertinoPageRoute(builder: (context) {
+        return page;
+      });
+    } else {
+      r = MaterialPageRoute(builder: (context) {
+        return page;
+      });
+    }
+
+    if (!destroy) return Navigator.of(context).push(r);
+    return Navigator.of(context)
+        .pushAndRemoveUntil(r, (route) => route == null);
   }
 }
 
@@ -110,6 +129,5 @@ class FluroConvertUtils {
     return json.decode(fluroCnParamsDecode(str));
   }
 }
-
 
 typedef BasePage SetPage();

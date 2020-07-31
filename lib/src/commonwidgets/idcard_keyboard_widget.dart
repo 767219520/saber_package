@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:saber_package/src/commonwidgets/scaffold_state_widget.dart';
-import 'package:saber_package/src/tools/route_tools.dart';
+import 'package:saber_package/src/tools/routes_tools.dart';
 import 'package:saber_package/src/utils/color_utils.dart';
 import 'package:saber_package/src/utils/string_utils.dart';
 import 'falls_widget.dart';
@@ -125,10 +125,10 @@ class IdcardKeyboardWidgetController {
       return;
     } else if (index == 10) {
       searchController.text = "";
-      RouteTools.pagegoBack(context);
+      Routes.back(context);
     } else if (index == 13) {
       searchController.text = "";
-      RouteTools.pagegoBack(context);
+      Routes.back(context);
       _onSubmitted(text);
     } else if (text.length < 18)
       searchController.text = text + _keyNames[index];
