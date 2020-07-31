@@ -1,82 +1,77 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/bezier_bounce_footer.dart';
-import 'package:flutter_easyrefresh/bezier_circle_header.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class Refresh extends StatefulWidget {
-//  State<refresh> _controller;
   final OnRefresh onFooterRefresh;
   final OnRefresh onHeaderRefresh;
   IndexedWidgetBuilder widgetBuilder;
   int itemCount = 0;
   List<Widget> defaultChilds = null;
   bool firstRefresh;
+  EasyRefreshController _controller;
 
   @override
   _refreshState createState() => _refreshState();
 
   Refresh(
       {this.onHeaderRefresh,
-      this.onFooterRefresh,
-      this.widgetBuilder,
-      this.itemCount,
-      this.defaultChilds,
-      this.firstRefresh = true});
+        this.onFooterRefresh,
+        this.widgetBuilder,
+        this.itemCount,
+        this.defaultChilds,
+        this.firstRefresh = true});
 }
 
 class _refreshState extends State<Refresh> {
   EasyRefresh _smartRefresher;
-//
-//  GlobalKey<EasyRefreshState> _easyRefreshKey =
-//      new GlobalKey<EasyRefreshState>();
-//  GlobalKey<RefreshHeaderState> _headerKey =
-//      new GlobalKey<RefreshHeaderState>();
-//  GlobalKey<RefreshFooterState> _footerKey =
-//      new GlobalKey<RefreshFooterState>();
 
   @override
   Widget build(BuildContext context) {
     widget.itemCount = widget.itemCount <= 0 ? 0 : widget.itemCount;
+    widget.itemCount += 20;
     _smartRefresher = new EasyRefresh(
+        controller: widget._controller,
         firstRefresh: widget.firstRefresh,
-//        key: _easyRefreshKey,
-        header: BezierCircleHeader(
-//          key: _headerKey,
-          backgroundColor: Color(0xFFdddddd),
-          color: Theme.of(context).scaffoldBackgroundColor,
+        header: ClassicalHeader(
+          refreshText: "上拉刷新",
+          refreshReadyText: "释放刷新",
+          refreshingText: "正在刷新中",
+          refreshedText: "刷新完成",
+          refreshFailedText: "刷新失败",
         ),
-        footer: BezierBounceFooter(
-//          key: _footerKey,
-          backgroundColor: Color(0xFFdddddd),
-          color: Theme.of(context).scaffoldBackgroundColor,
-        ),
+        footer: ClassicalFooter(
+            loadText: "下拉加载",
+            loadReadyText: "准备加载",
+            loadingText: "加载中",
+            loadedText: "加载完成",
+            loadFailedText: "加载失败"),
         onRefresh: widget.onHeaderRefresh == null
             ? null
             : () {
-                return _onRefresh(true);
-              },
+          return _onRefresh(true);
+        },
         onLoad: widget.onFooterRefresh == null
             ? null
             : () {
-                return _onRefresh(false);
-              },
+          return _onRefresh(false);
+        },
         child: widget.widgetBuilder == null
             ? ListView(
-                children: widget.defaultChilds,
-                physics: BouncingScrollPhysics(),
-              )
+          children: widget.defaultChilds,
+          physics: BouncingScrollPhysics(),
+        )
             : ListView.builder(
-                itemCount: widget.itemCount,
-                itemBuilder: widget.widgetBuilder,
-                physics: BouncingScrollPhysics()));
+            itemCount: widget.itemCount,
+            itemBuilder: widget.widgetBuilder,
+            physics: BouncingScrollPhysics()));
     return _smartRefresher;
   }
 
   Future<void> _onRefresh(bool up) {
     if (up)
-      return widget.onHeaderRefresh(this);
+      return widget.onHeaderRefresh(this) ?? Future.value(null);
     else
-      return widget.onFooterRefresh(this);
+      return widget.onFooterRefresh(this) ?? Future.value(null);
   }
 }
 
