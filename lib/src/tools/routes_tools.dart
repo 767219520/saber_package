@@ -42,8 +42,12 @@ class Routes {
       TransitionType transition,
       Duration transitionDuration = const Duration(milliseconds: 250),
       RouteTransitionsBuilder transitionBuilder}) {
-    var realRouterName = routerName.substring(0, routerName.indexOf("?"));
-    var queryString = routerName.substring(routerName.indexOf("?") + 1);
+    var realRouterName = !routerName.contains("?")
+        ? routerName
+        : routerName.substring(0, routerName.indexOf("?"));
+    var queryString = !routerName.contains("?")
+        ? ""
+        : routerName.substring(routerName.indexOf("?") + 1);
     Uri uri = new Uri(
         scheme: 'http',
         host: 'localhost',
