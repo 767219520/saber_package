@@ -42,9 +42,22 @@ class Routes {
       TransitionType transition,
       Duration transitionDuration = const Duration(milliseconds: 250),
       RouteTransitionsBuilder transitionBuilder}) {
+    var realRouterName = routerName.substring(0, routerName.indexOf("?"));
+    var queryString = routerName.substring(routerName.indexOf("?") + 1);
+    Uri uri = new Uri(
+        scheme: 'http',
+        host: 'localhost',
+        path: realRouterName,
+        query: queryString);
+
     if (paramsMap != null) {
+      paramsMap.addAll(uri.queryParameters);
       routerName +=
           "?p=" + FluroConvertUtils.fluroCnParamsEncode(json.encode(paramsMap));
+    } else {
+      routerName += "?p=" +
+          FluroConvertUtils.fluroCnParamsEncode(
+              json.encode(uri.queryParameters));
     }
     return _router.navigateTo(context, routerName,
         replace: replace,
@@ -58,23 +71,23 @@ class Routes {
     return Navigator.pop(context, result);
   }
 
-  static Future pageTurn(BuildContext context, Widget page,
-      [bool destroy = false, bool autoPlatform = false]) {
-    var r;
-    if (autoPlatform && Platform.isIOS) {
-      r = CupertinoPageRoute(builder: (context) {
-        return page;
-      });
-    } else {
-      r = MaterialPageRoute(builder: (context) {
-        return page;
-      });
-    }
-
-    if (!destroy) return Navigator.of(context).push(r);
-    return Navigator.of(context)
-        .pushAndRemoveUntil(r, (route) => route == null);
-  }
+//  static Future pageTurn(BuildContext context, Widget page,
+//      [bool destroy = false, bool autoPlatform = false]) {
+//    var r;
+//    if (autoPlatform && Platform.isIOS) {
+//      r = CupertinoPageRoute(builder: (context) {
+//        return page;
+//      });
+//    } else {
+//      r = MaterialPageRoute(builder: (context) {
+//        return page;
+//      });
+//    }
+//
+//    if (!destroy) return Navigator.of(context).push(r);
+//    return Navigator.of(context)
+//        .pushAndRemoveUntil(r, (route) => route == null);
+//  }
 }
 
 class RouteConfig {
