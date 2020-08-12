@@ -15,26 +15,28 @@ class FutureBuilderWidget extends StatefulWidget {
 }
 
 class _FutureBuilderWidgetState extends State<FutureBuilderWidget> {
-  Future<T> init<T>() {
-    return widget._init(context).then((v) {
-      widget.controller.isload = true;
-    });
-  }
+//  Future<T> init<T>() {
+//    return widget._init(context).then((v) {
+//      widget.controller.isload = true;
+//    });
+//  }
 
   @override
   Widget build(BuildContext context) {
     Widget c = widget.controller.isload
-        ? widget._widgetBuilder(context,null)
+        ? widget._widgetBuilder(context, null)
         : FutureBuilder(
-        future: init(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (ConnectionState.done == snapshot.connectionState) {
-            return widget._widgetBuilder(context,snapshot.data);
-          }
-          return Container(
-              color: Colors.white,
-              child: CommonTools.loadingWidgetSingle(context));
-        });
+            future: widget
+                ._init(context)
+                .then((value) => widget.controller.isload = true),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (ConnectionState.done == snapshot.connectionState) {
+                return widget._widgetBuilder(context, snapshot.data);
+              }
+              return Container(
+                  color: Colors.white,
+                  child: CommonTools.loadingWidgetSingle(context));
+            });
     return c;
   }
 
@@ -57,4 +59,4 @@ class FutureBuilderController {
 
 typedef Future FutureInit(BuildContext context);
 
-typedef Widget WidgetBuilderResult (BuildContext context,dynamic data);
+typedef Widget WidgetBuilderResult(BuildContext context, dynamic data);
