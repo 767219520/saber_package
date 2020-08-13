@@ -56,14 +56,14 @@ class Routes {
 
     if (paramsMap != null) {
       paramsMap.addAll(uri.queryParameters);
-      routerName +=
+      realRouterName +=
           "?p=" + FluroConvertUtils.fluroCnParamsEncode(json.encode(paramsMap));
     } else {
-      routerName += "?p=" +
+      realRouterName += "?p=" +
           FluroConvertUtils.fluroCnParamsEncode(
               json.encode(uri.queryParameters));
     }
-    return _router.navigateTo(context, routerName,
+    return _router.navigateTo(context, realRouterName,
         replace: replace,
         clearStack: clearStack,
         transition: transition,
