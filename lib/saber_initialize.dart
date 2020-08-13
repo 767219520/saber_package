@@ -7,10 +7,20 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:package_info/package_info.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:saber_package/saber_commonwidgets.dart';
+import 'package:saber_package/saber_tools.dart';
 import 'package:saber_package/saber_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Initialize {
+abstract class LoginUser {
+  @protected
+  LoginUser toJson(String jsonString);
+
+  String toJsonString() {
+    return JsonTool.toJsonString(this);
+  }
+}
+
+class Initialize<T extends LoginUser> {
   static Initialize instance = new Initialize();
   ScreenUtils screenUtils = ScreenUtils.instance;
   Directory baseDir;
@@ -27,7 +37,8 @@ class Initialize {
   bool _designAllowFontScaling;
   FutureInit _before;
   FutureInit _after;
-  dynamic loginUser;
+  T loginUser;
+  Function fromJsonAsT;
 
   setBeforeFutureInit(FutureInit _before) {
     this._before = _before;
@@ -37,25 +48,30 @@ class Initialize {
     this._after = _after;
   }
 
-  setLoginUser(String loginUser) {
+  setLoginUser(T loginUser) {
     this.loginUser = loginUser;
-    sharedPreferences.setString("loginUser", loginUser);
+    sharedPreferences.setString("loginUser", loginUser.toJsonString());
   }
 
-  String getLoginUser() {
+  T getLoginUser() {
     if (this.loginUser != null) {
       return this.loginUser;
-    } else {
-      return sharedPreferences.getString("loginUser");
     }
+    String json = sharedPreferences.getString("loginUser");
+    if (StringUtils.isEmpty(json)) return null;
+
+    var json2 = JsonTool.toJson(json);
+    return fromJsonAsT<T>(json2);
   }
 
   Initialize init(
-      {FutureInit before,
+      {Function fromJsonAsT,
+      FutureInit before,
       FutureInit after,
       double designWidth,
       double designHeight,
       bool designAllowFontScaling}) {
+    this.fromJsonAsT = fromJsonAsT;
     this._before = before;
     this._after = after;
     _designHeight = designHeight;
