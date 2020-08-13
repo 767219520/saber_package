@@ -25,9 +25,9 @@ class Initialize {
   double _designWidth;
   double _designHeight;
   bool _designAllowFontScaling;
-
   FutureInit _before;
   FutureInit _after;
+  dynamic loginUser;
 
   setBeforeFutureInit(FutureInit _before) {
     this._before = _before;
@@ -35,6 +35,19 @@ class Initialize {
 
   setAfterFutureInit(FutureInit _after) {
     this._after = _after;
+  }
+
+  setLoginUser(String loginUser) {
+    this.loginUser = loginUser;
+    sharedPreferences.setString("loginUser", loginUser);
+  }
+
+  String getLoginUser() {
+    if (this.loginUser != null) {
+      return this.loginUser;
+    } else {
+      return sharedPreferences.getString("loginUser");
+    }
   }
 
   Initialize init(
@@ -51,7 +64,7 @@ class Initialize {
     return this;
   }
 
-  Future<String> _init(BuildContext context,Future init) async {
+  Future<String> _init(BuildContext context, Future init) async {
     macId = loadMacId ? await _getMacId() : "";
     if (_before != null) await _before(context);
     screenUtils.init(context,
@@ -109,21 +122,17 @@ class InitializeApp extends StatelessWidget {
   Initialize _initialize;
   Future init;
 
-  InitializeApp(this._initialize, this.widgetBuilder,this.init);
+  InitializeApp(this._initialize, this.widgetBuilder, this.init);
 
   FutureBuilderController _futureBuilderController = FutureBuilderController();
 
   Future _init(BuildContext context) {
-    return _initialize._init(context,init);
+    return _initialize._init(context, init);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilderWidget(
-      widgetBuilder,
-      _init,
-      _futureBuilderController,
-      key: Key("InitializeApp")
-    );
+    return FutureBuilderWidget(widgetBuilder, _init, _futureBuilderController,
+        key: Key("InitializeApp"));
   }
 }
