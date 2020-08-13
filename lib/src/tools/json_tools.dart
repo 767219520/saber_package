@@ -5,7 +5,11 @@ class JsonTool {
     return convert.jsonDecode(jsonString);
   }
 
-   static String toJsonString(dynamic o) {
+  static String toJsonString(dynamic o) {
+    if (o == null) return "";
+    if (0.runtimeType is String) {
+      return o;
+    }
     return convert.jsonEncode(o);
   }
 }

@@ -11,16 +11,8 @@ import 'package:saber_package/saber_tools.dart';
 import 'package:saber_package/saber_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class LoginUser {
-  @protected
-  LoginUser toJson(String jsonString);
 
-  String toJsonString() {
-    return JsonTool.toJsonString(this);
-  }
-}
-
-class Initialize<T extends LoginUser> {
+class Initialize<T> {
   static Initialize instance;
   ScreenUtils screenUtils = ScreenUtils.instance;
   Directory baseDir;
@@ -50,7 +42,7 @@ class Initialize<T extends LoginUser> {
 
   setLoginUser(T loginUser) {
     this.loginUser = loginUser;
-    sharedPreferences.setString("loginUser", loginUser.toJsonString());
+    sharedPreferences.setString("loginUser", JsonTool.toJsonString(loginUser));
   }
 
   T getLoginUser() {
@@ -64,7 +56,7 @@ class Initialize<T extends LoginUser> {
     return fromJsonAsT<T>(json2);
   }
 
-  static Initialize<T> init<T extends LoginUser>(
+  static Initialize<T> init<T>(
       {Function fromJsonAsT,
       FutureInit before,
       FutureInit after,
