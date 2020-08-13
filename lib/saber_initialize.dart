@@ -107,8 +107,9 @@ class Initialize {
 class InitializeApp extends StatelessWidget {
   WidgetBuilderResult widgetBuilder;
   Initialize _initialize;
+  Function afterInit;
 
-  InitializeApp(this._initialize, this.widgetBuilder);
+  InitializeApp(this._initialize, this.widgetBuilder, {this.afterInit});
 
   FutureBuilderController _futureBuilderController = FutureBuilderController();
 
@@ -118,6 +119,11 @@ class InitializeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilderWidget(widgetBuilder, _init, _futureBuilderController);
+    return FutureBuilderWidget(
+      widgetBuilder,
+      _init,
+      _futureBuilderController,
+      key: Key("InitializeApp")
+    );
   }
 }

@@ -9,9 +9,14 @@ abstract class FutureBuilderAdapter {
   }
 
   Widget buildView([BuildContext context]) {
-    return FutureBuilderWidget(_gethtml, (v) {
-      return onload();
-    }, _futureBuilderController);
+    return FutureBuilderWidget(
+      _gethtml,
+      (v) {
+        return onload();
+      },
+      _futureBuilderController,
+      key: Key("page"),
+    );
   }
 
   @protected
