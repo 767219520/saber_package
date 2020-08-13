@@ -21,7 +21,7 @@ abstract class LoginUser {
 }
 
 class Initialize<T extends LoginUser> {
-  static Initialize instance = new Initialize();
+  static Initialize instance;
   ScreenUtils screenUtils = ScreenUtils.instance;
   Directory baseDir;
   String macId = "";
@@ -64,20 +64,22 @@ class Initialize<T extends LoginUser> {
     return fromJsonAsT<T>(json2);
   }
 
-  Initialize init(
+  static Initialize<T> init<T extends LoginUser>(
       {Function fromJsonAsT,
       FutureInit before,
       FutureInit after,
       double designWidth,
       double designHeight,
       bool designAllowFontScaling}) {
-    this.fromJsonAsT = fromJsonAsT;
-    this._before = before;
-    this._after = after;
-    _designHeight = designHeight;
-    _designWidth = designWidth;
-    _designAllowFontScaling = designAllowFontScaling;
-    return this;
+    Initialize<T> initialize = new Initialize<T>();
+    initialize.fromJsonAsT = fromJsonAsT;
+    initialize._before = before;
+    initialize._after = after;
+    initialize._designHeight = designHeight;
+    initialize._designWidth = designWidth;
+    initialize._designAllowFontScaling = designAllowFontScaling;
+    instance = initialize;
+    return initialize;
   }
 
   Future<String> _init(BuildContext context, Future init) async {
