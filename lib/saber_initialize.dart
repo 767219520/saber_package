@@ -51,7 +51,7 @@ class Initialize {
     return this;
   }
 
-  Future<String> _init(BuildContext context) async {
+  Future<String> _init(BuildContext context,Future init) async {
     macId = loadMacId ? await _getMacId() : "";
     if (_before != null) await _before(context);
     screenUtils.init(context,
@@ -107,14 +107,14 @@ class Initialize {
 class InitializeApp extends StatelessWidget {
   WidgetBuilderResult widgetBuilder;
   Initialize _initialize;
-  Function afterInit;
+  Future init;
 
-  InitializeApp(this._initialize, this.widgetBuilder, {this.afterInit});
+  InitializeApp(this._initialize, this.widgetBuilder,this.init);
 
   FutureBuilderController _futureBuilderController = FutureBuilderController();
 
   Future _init(BuildContext context) {
-    return _initialize._init(context);
+    return _initialize._init(context,init);
   }
 
   @override
