@@ -4,7 +4,7 @@ import 'package:saber_package/src/commonwidgets/future_builder_widget.dart';
 
 abstract class FutureBuilderAdapter {
   FutureBuilderController _futureBuilderController = FutureBuilderController();
-  bool hasWillPop = true;
+  bool hasWillPop = false;
 
   Widget _gethtml(BuildContext context, dynamic data) {
     if (hasWillPop)
