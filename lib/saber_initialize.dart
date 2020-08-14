@@ -11,7 +11,6 @@ import 'package:saber_package/saber_tools.dart';
 import 'package:saber_package/saber_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class Initialize<T> {
   static Initialize instance;
   ScreenUtils screenUtils = ScreenUtils.instance;
@@ -42,7 +41,11 @@ class Initialize<T> {
 
   setLoginUser(T loginUser) {
     this.loginUser = loginUser;
-    sharedPreferences.setString("loginUser", JsonTool.toJsonString(loginUser));
+    if (loginUser == null)
+      sharedPreferences.remove("loginUser");
+    else
+      sharedPreferences.setString(
+          "loginUser", JsonTool.toJsonString(loginUser));
   }
 
   T getLoginUser() {
