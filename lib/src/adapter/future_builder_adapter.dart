@@ -1,11 +1,16 @@
 import 'package:flutter/cupertino.dart';
+import 'package:saber_package/saber_commonwidgets.dart';
 import 'package:saber_package/src/commonwidgets/future_builder_widget.dart';
 
 abstract class FutureBuilderAdapter {
   FutureBuilderController _futureBuilderController = FutureBuilderController();
+  bool hasWillPop = true;
 
   Widget _gethtml(BuildContext context, dynamic data) {
-    return gethtml(context);
+    if (hasWillPop)
+      return WillPopScopeWidget(gethtml(context));
+    else
+      return gethtml(context);
   }
 
   Widget buildView([BuildContext context]) {
