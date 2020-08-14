@@ -56,7 +56,8 @@ class Initialize<T> {
     if (StringUtils.isEmpty(json)) return null;
 
     var json2 = JsonTool.toJson(json);
-    return fromJsonAsT<T>(json2);
+    this.loginUser= fromJsonAsT<T>(json2);
+    return this.loginUser;
   }
 
   static Initialize<T> init<T>(
@@ -134,7 +135,6 @@ class InitializeApp extends StatelessWidget {
   WidgetBuilderResult widgetBuilder;
   Initialize _initialize;
   Future init;
-
   InitializeApp(this._initialize, this.widgetBuilder, this.init);
 
   FutureBuilderController _futureBuilderController = FutureBuilderController();
