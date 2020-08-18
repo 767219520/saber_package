@@ -7,6 +7,7 @@ class SwiperWidget extends StatelessWidget {
   double height = 150;
   Widget defaultChild = null;
   bool autoplay;
+  double viewportFraction = 1.0;
 
 //  SwiperPagination pagination;
   SwiperController controller;
@@ -15,17 +16,17 @@ class SwiperWidget extends StatelessWidget {
   int index;
   ValueChanged<int> change;
 
-  SwiperWidget(
-      {this.height,
-      this.index = 0,
-      this.itemCount,
-      this.itemBuilder,
-      this.defaultChild,
-      this.loop = true,
-      this.change,
-      this.autoplay = true,
-      this.paginationType = 1,
-      this.controller}) {
+  SwiperWidget({this.height,
+    this.index = 0,
+    this.itemCount,
+    this.itemBuilder,
+    this.defaultChild,
+    this.loop = true,
+    this.change,
+    this.autoplay = true,
+    this.paginationType = 1,
+    this.viewportFraction=1.0,
+    this.controller}) {
 //    this.pagination = this.pagination ?? new SwiperPagination();
   }
 
@@ -62,6 +63,7 @@ class SwiperWidget extends StatelessWidget {
         controller: controller,
         autoplay: autoplay,
         onIndexChanged: change,
+        viewportFraction: viewportFraction,
         itemCount: itemCount <= 0 ? 1 : itemCount,
         pagination: pagination);
     return new Container(
