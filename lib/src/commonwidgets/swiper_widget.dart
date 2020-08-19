@@ -18,7 +18,7 @@ class SwiperWidget extends StatelessWidget {
 
   SwiperWidget({this.height,
     this.index = 0,
-    this.itemCount,
+    this.itemCount=0,
     this.itemBuilder,
     this.defaultChild,
     this.loop = true,
