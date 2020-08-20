@@ -51,6 +51,7 @@ class _VerifyCodeState extends State<VerifyCode> {
   @override
   void dispose() {
     if (_countdownTimer != null) _countdownTimer.cancel();
+    super.dispose();
   }
 }
 
