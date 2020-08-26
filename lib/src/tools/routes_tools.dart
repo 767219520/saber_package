@@ -39,7 +39,7 @@ class Routes {
       {Map<String, dynamic> paramsMap,
       bool replace = false,
       bool clearStack = false,
-      TransitionType transition,
+      TransitionType transition=TransitionType.cupertino,
       Duration transitionDuration = const Duration(milliseconds: 250),
       RouteTransitionsBuilder transitionBuilder}) {
     var realRouterName = !routerName.contains("?")
