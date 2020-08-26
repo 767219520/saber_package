@@ -89,7 +89,7 @@ class Initialize<T> {
     sharedPreferences = await SharedPreferences.getInstance();
     packageInfo = await PackageInfo.fromPlatform();
     firstInstall =
-        StringUtils.isNotEmpty(sharedPreferences.getString("versions"));
+        packageInfo.version != sharedPreferences.getString("versions");
     if (firstInstall) {
       sharedPreferences.setString("versions", packageInfo.version);
     }
