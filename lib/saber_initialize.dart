@@ -30,6 +30,7 @@ class Initialize<T> {
   FutureInit _after;
   T loginUser;
   Function fromJsonAsT;
+  bool firstInstall = false;
 
   setBeforeFutureInit(FutureInit _before) {
     this._before = _before;
@@ -56,7 +57,7 @@ class Initialize<T> {
     if (StringUtils.isEmpty(json)) return null;
 
     var json2 = JsonTool.toJson(json);
-    this.loginUser= fromJsonAsT<T>(json2);
+    this.loginUser = fromJsonAsT<T>(json2);
     return this.loginUser;
   }
 
@@ -86,8 +87,13 @@ class Initialize<T> {
         height: _designHeight,
         allowFontScaling: _designAllowFontScaling);
     sharedPreferences = await SharedPreferences.getInstance();
-    baseDir = await getApplicationDocumentsDirectory();
     packageInfo = await PackageInfo.fromPlatform();
+    firstInstall =
+        StringUtils.isNotEmpty(sharedPreferences.getString("versions"));
+    if (firstInstall) {
+      sharedPreferences.setString("versions", packageInfo.version);
+    }
+    baseDir = await getApplicationDocumentsDirectory();
     if (_after != null) await _after(context);
     return Future.value("1");
   }
@@ -135,6 +141,7 @@ class InitializeApp extends StatelessWidget {
   WidgetBuilderResult widgetBuilder;
   Initialize _initialize;
   Future init;
+
   InitializeApp(this._initialize, this.widgetBuilder, this.init);
 
   FutureBuilderController _futureBuilderController = FutureBuilderController();
