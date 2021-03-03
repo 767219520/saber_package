@@ -1,18 +1,16 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:saber_package/saber_tools.dart';
 import 'package:saber_package/saber_utils.dart';
 import 'package:saber_package/src/adapter/base_page.dart';
 
 class Routes {
-  static Router _router;
+  static FluroRouter _router;
 
   static void configureRoutes(List<RouteConfig> lstConfig) {
-    _router = new Router();
+    _router = new FluroRouter();
     _router.notFoundHandler = new Handler(
         handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       print("ROUTE WAS NOT FOUND !!!");
