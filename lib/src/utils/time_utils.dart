@@ -3,10 +3,10 @@ class TimeUtils {
     setTimeOut(Duration(seconds: seconds), f);
   }
 
-  static int setTimeOut(Duration d, Function f, [int loopCount = 1]) {
+  static int setTimeOut(Duration d, LoopFunc f, [int loopCount = 1]) {
     if (f == null || loopCount <= 0) return 0;
     Future.delayed(d).then((value) {
-      f();
+      f(loopCount);
       setTimeOut(d, f, loopCount - 1);
     });
     return loopCount;
@@ -20,9 +20,11 @@ class TimeUtils {
     });
   }
 
-  void loop(Function f, [int loopMaxCount = 1]) {
+  static void loop(LoopFunc f, [int loopMaxCount = 1]) {
     if (f == null || loopMaxCount <= 0) return;
-    f();
+    f(loopMaxCount);
     loop(f, loopMaxCount - 1);
   }
 }
+
+typedef void LoopFunc(int loopCount);
