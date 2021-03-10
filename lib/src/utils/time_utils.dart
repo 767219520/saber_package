@@ -1,9 +1,9 @@
 class TimeUtils {
   static void setTimeOutSeconds(int seconds, Function f) {
-     setTimeOut(Duration(seconds: seconds), f);
+    setTimeOut(Duration(seconds: seconds), f);
   }
 
-  static int setTimeOut(Duration d, Function f, [int loopCount = 1 ]) {
+  static int setTimeOut(Duration d, Function f, [int loopCount = 1]) {
     if (f == null || loopCount <= 0) return 0;
     Future.delayed(d).then((value) {
       f();
@@ -18,5 +18,11 @@ class TimeUtils {
       f();
       setTimeOutLoop(d, f);
     });
+  }
+
+  void loop(Function f, [int loopMaxCount = 1]) {
+    if (f == null || loopMaxCount <= 0) return;
+    f();
+    loop(f, loopMaxCount - 1);
   }
 }
