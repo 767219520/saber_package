@@ -15,3 +15,4 @@ export 'package:saber_package/src/commonwidgets/tab_widget.dart';
 export 'package:saber_package/src/commonwidgets/text_widget.dart';
 export 'package:saber_package/src/commonwidgets/verify_code.dart';
 export 'package:saber_package/src/commonwidgets/will_pop_scope_widget.dart';
+export 'package:saber_package/src/commonwidgets/region_mask.dart';
