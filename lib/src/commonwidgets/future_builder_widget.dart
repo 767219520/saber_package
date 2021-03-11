@@ -17,22 +17,19 @@ class FutureBuilderWidget extends StatefulWidget {
 }
 
 class _FutureBuilderWidgetState extends State<FutureBuilderWidget> {
-//  Future<T> init<T>() {
-//    return widget._init(context).then((v) {
-//      widget.controller.isload = true;
-//    });
-//  }
-
   Future _init(BuildContext context) {
-    return  widget._init(context).then((value) => widget.controller.isload = true);
+    return widget._init(context).then((value) {
+      widget.controller.isload = true;
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     Widget c = widget.controller.isload
         ? widget._widgetBuilder(context, null)
         : FutureBuilder(
             key: widget.key,
-            future:_init(context),
+            future: _init(context),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (ConnectionState.done == snapshot.connectionState) {
                 return widget._widgetBuilder(context, snapshot.data);
@@ -52,7 +49,6 @@ class _FutureBuilderWidgetState extends State<FutureBuilderWidget> {
     widget.controller.isload = false;
   }
 
-
   @override
   void dispose() {
     super.dispose();
@@ -67,6 +63,10 @@ class FutureBuilderController {
   void reset() {
     isload = false;
     if (_state.mounted) _state.setState(() {});
+  }
+
+  void setState() {
+    if (isload && _state.mounted) _state.setState(() {});
   }
 }
 

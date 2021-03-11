@@ -4,6 +4,9 @@ import 'package:saber_package/src/commonwidgets/future_builder_widget.dart';
 
 abstract class FutureBuilderAdapter {
   FutureBuilderController _futureBuilderController = FutureBuilderController();
+
+  FutureBuilderController get futureBuilderController =>
+      _futureBuilderController;
   bool hasWillPop = false;
 
   Widget _gethtml(BuildContext context, dynamic data) {
@@ -16,11 +19,13 @@ abstract class FutureBuilderAdapter {
   Widget buildView([BuildContext context]) {
     return FutureBuilderWidget(
       _gethtml,
-      (v) {
+          (v) {
         return onload();
       },
       _futureBuilderController,
-      key: Key("page"),
+      key: Key("${DateTime
+          .now()
+          .millisecond}"),
     );
   }
 
@@ -29,6 +34,11 @@ abstract class FutureBuilderAdapter {
 
   @protected
   Widget gethtml([BuildContext buildContext]);
+
+
+  void setState() {
+    _futureBuilderController.setState();
+  }
 
   void forcedRefresh() {
     _futureBuilderController.reset();

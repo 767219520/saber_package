@@ -95,7 +95,7 @@ class Initialize<T> {
     }
     baseDir = await getApplicationDocumentsDirectory();
     if (_after != null) await _after(context);
-    return Future.value("1");
+    return Future.value("Initialize saber");
   }
 
   static Future<String> storageRead(String key) async {
