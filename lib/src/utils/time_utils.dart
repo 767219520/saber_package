@@ -1,29 +1,30 @@
 class TimeUtils {
-  static void setTimeOutSeconds(int seconds, Function f) {
-    setTimeOut(Duration(seconds: seconds), f);
+  static Future setTimeOutSeconds(int seconds, LoopFunc f) {
+    return setTimeOut(Duration(seconds: seconds), f, 1);
   }
 
-  static int setTimeOut(Duration d, LoopFunc f, [int loopCount = 1]) {
-    if (f == null || loopCount <= 0) return 0;
-    Future.delayed(d).then((value) {
-      f(loopCount);
-      setTimeOut(d, f, loopCount - 1);
-    });
-    return loopCount;
-  }
-
-  static void setTimeOutLoop(Duration d, Function f) {
-    if (f == null) return;
-    Future.delayed(d).then((value) {
-      f();
-      setTimeOutLoop(d, f);
+  static Future setTimeOut(Duration d, LoopFunc f, [int loopMaxCount = 1]) {
+    if (f == null || loopMaxCount <= 0) return Future.value(false);
+    return Future.delayed(d).then((value) {
+      f(loopMaxCount);
+      setTimeOut(d, f, loopMaxCount - 1);
     });
   }
 
-  static void loop(LoopFunc f, [int loopMaxCount = 1]) {
-    if (f == null || loopMaxCount <= 0) return;
+  static Future setTimeOutLoop(Duration d, LoopFunc f,
+      [int loopStartCount = 0]) {
+    loopStartCount++;
+    if (f == null) return Future.value(false);
+    return Future.delayed(d).then((value) {
+      f(loopStartCount);
+      return setTimeOutLoop(d, f, loopStartCount);
+    });
+  }
+
+  static Future loop(LoopFunc f, [int loopMaxCount = 1]) {
+    if (f == null || loopMaxCount <= 0) return Future.value(false);
     f(loopMaxCount);
-    loop(f, loopMaxCount - 1);
+    return loop(f, loopMaxCount - 1);
   }
 }
 

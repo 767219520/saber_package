@@ -10,14 +10,19 @@ class RegiobMask extends StatefulWidget {
   double regionWidthDp = 0.0;
   double regionHeightDp = 0.0;
   Color color;
+
+  Color regionColor;
+
   double opacity;
   WidgetBuilder widgetBuilderRegion;
 
-  RegiobMask({this.regionWidthDp = 100,
-    this.regionHeightDp = 100,
-    this.color = Colors.red,
-    this.opacity = 0.5,
-    this.widgetBuilderRegion});
+  RegiobMask(
+      {this.regionWidthDp = 100,
+        this.regionHeightDp = 100,
+        this.color = Colors.red,
+        this.regionColor = Colors.transparent,
+        this.opacity = 0.5,
+        this.widgetBuilderRegion});
 }
 
 class _RegiobMaskState extends State<RegiobMask> {
@@ -44,14 +49,14 @@ class _RegiobMaskState extends State<RegiobMask> {
     return Container(
         width: (screenWidth - widget.regionWidthDp) / 2,
         height: screenHeight,
-        color: widget.color);
+        color: (widget.color));
   }
 
   Widget getTop(screenWidth, screenHeight) {
     return Container(
       height: (screenHeight - widget.regionHeightDp) / 2,
       width: widget.regionWidthDp,
-      color: widget.color,
+      color: (widget.color),
     );
   }
 
@@ -62,6 +67,7 @@ class _RegiobMaskState extends State<RegiobMask> {
         width: widget.regionWidthDp,
         height: widget.regionHeightDp,
         child: widget.widgetBuilderRegion(context),
+        color: widget.regionColor,
       ),
       getTop(screenWidth, screenHeight)
     ]);
