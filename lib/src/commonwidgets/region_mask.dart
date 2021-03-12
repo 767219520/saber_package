@@ -9,6 +9,8 @@ class RegiobMask extends StatefulWidget {
 
   double regionWidthDp = 0.0;
   double regionHeightDp = 0.0;
+  double top;
+
   Color color;
 
   Color regionColor;
@@ -18,11 +20,12 @@ class RegiobMask extends StatefulWidget {
 
   RegiobMask(
       {this.regionWidthDp = 100,
-        this.regionHeightDp = 100,
-        this.color = Colors.red,
-        this.regionColor = Colors.transparent,
-        this.opacity = 0.5,
-        this.widgetBuilderRegion});
+      this.regionHeightDp = 100,
+      this.color = Colors.red,
+      this.regionColor = Colors.transparent,
+      this.opacity = 0.5,
+      this.top = -1,
+      this.widgetBuilderRegion});
 }
 
 class _RegiobMaskState extends State<RegiobMask> {
@@ -52,9 +55,18 @@ class _RegiobMaskState extends State<RegiobMask> {
         color: (widget.color));
   }
 
-  Widget getTop(screenWidth, screenHeight) {
+  Widget getTopBottom(screenWidth, screenHeight, istop) {
+    if (widget.top < 0) {
+      return Container(
+        height: (screenHeight - widget.regionHeightDp) / 2,
+        width: widget.regionWidthDp,
+        color: (widget.color),
+      );
+    }
     return Container(
-      height: (screenHeight - widget.regionHeightDp) / 2,
+      height: istop
+          ? widget.top
+          : screenHeight - widget.regionHeightDp - widget.top,
       width: widget.regionWidthDp,
       color: (widget.color),
     );
@@ -62,14 +74,14 @@ class _RegiobMaskState extends State<RegiobMask> {
 
   Widget getRegion(screenWidth, screenHeight) {
     return Column(children: [
-      getTop(screenWidth, screenHeight),
+      getTopBottom(screenWidth, screenHeight,true),
       Container(
         width: widget.regionWidthDp,
         height: widget.regionHeightDp,
         child: widget.widgetBuilderRegion(context),
         color: widget.regionColor,
       ),
-      getTop(screenWidth, screenHeight)
+      getTopBottom(screenWidth, screenHeight,false)
     ]);
   }
 }
